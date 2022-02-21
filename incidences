@@ -1,0 +1,47 @@
+#!/usr/bin/env bash
+# Return times first argument was found in second argument
+
+incidencias_for () {
+
+    to_search=$1
+    declare -a search_into=$2
+    incidences=0
+
+    for item in "${search_into[@]}"; do
+        if [ "$item" = "$to_search" ]
+        then
+            ((incidences++))
+        fi
+    done
+    echo "$incidences"
+}
+
+aux_incidencias () {
+
+    to_search=$1
+    declare -a search_into=$2
+    index=$3
+    max_index="${#search_into[@]}"
+
+    if [[ "$index" -lt "$max_index" ]]
+    then
+        previous=$(aux_incidencias "$to_search" "$2" $((index+1)))
+        if [ "$to_search" = "${search_into[index]}" ]
+        then
+            echo $((1+previous))
+        else
+            echo $((0+previous))
+        fi
+    else
+        echo 0
+    fi
+}
+
+incidencias () {
+
+    aux_incidencias "$1" "$2" 0
+
+}
+
+incidencias "$1" "$2"
+incidencias_for "$1" "$2"

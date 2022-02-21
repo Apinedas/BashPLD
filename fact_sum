@@ -1,0 +1,37 @@
+#!/usr/bin/env bash
+# Calcs factorial for n
+
+factorial() {
+
+    n=$1
+    if [[ "$n" -le 1 ]]
+    then
+        echo 1
+    else
+        previous=$(factorial $((n-1)))
+        echo $((n*previous))
+    fi
+}
+
+# Calcs sum of factorials from n to 0
+
+fact_sum_n() {
+    n=$1
+    if [[ "$n" -le 0 ]]
+    then
+        echo 1
+    else
+        actual=$(factorial "$n")
+        previous=$(fact_sum_n $((n-1)))
+        echo $((actual+previous))
+    fi
+}
+
+echo "Insert number (less or equal to 25)"
+read -r number
+if ((number > 25 || number < 0))
+then
+    echo "Wrong number"
+else
+    fact_sum_n number
+fi
